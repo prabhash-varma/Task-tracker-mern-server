@@ -78,10 +78,15 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *                      type: string    
  */
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect("mongodb+srv://prabhash:prabhash@cluster0.kj3fysg.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
+}).then(() => {
+    console.log("Connected to MongoDB");
+}).catch((err) => {
+    console.log(err);
 });
+
 
 
 // Middleware
