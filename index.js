@@ -451,16 +451,13 @@ app.post("/updatestatus",async (req,res)=>{
     status:"completed"
   }).then(()=>{
     console.log("Item status updated successfully");
+    res.json({auth:true,message:"Item status updated successfully"});
   }).catch((err)=>{
     console.log(err);
+    res.json({auth:false,message:"Item status updated successfully"});
   });
 
-  await Items.find({}).then((itemslist)=>{
-    res.json({auth:true,message:"Item status updated successfully",itemslist:itemslist});
-  }).catch((err)=>{
-    console.log(err);
-  });
-
+  
 }
 );
 
