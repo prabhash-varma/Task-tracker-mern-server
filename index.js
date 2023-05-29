@@ -44,9 +44,9 @@ const options = {
   apis: ["./index.js"],
 };
 const swaggerSpec = swaggerJsDoc(options);
-
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 // swagger docs
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }));
 
 /**
  * @swagger
@@ -457,7 +457,7 @@ app.post("/updatestatus",async (req,res)=>{
     res.json({auth:false,message:"Item status updated successfully"});
   });
 
-  
+
 }
 );
 
