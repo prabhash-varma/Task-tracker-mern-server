@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
+require("dotenv").config();
 
 // swagger configuration
 const options = {
@@ -36,7 +37,7 @@ const options = {
     ],
     servers: [
       {
-        url: "http://localhost:3001",
+        url: process.env.URL,
       },
     ],
   },
@@ -77,7 +78,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *                      type: string    
  */
 
-mongoose.connect("mongodb+srv://prabhash:prabhash@cluster0.kj3fysg.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -91,7 +92,7 @@ const verifyJWT = (req, res, next) => {
     if (!token) {
       res.json({ auth: false, message: "You failed to authenticate" });
     } else {
-      jwt.verify(token,"jwtkey", (err, decoded) => {
+      jwt.verify(token,process.env.JWT_KEY, (err, decoded) => {
         console.log(decoded);
         if (err) {
           res.json({ auth: false, message: "You failed to authenticate1" });
@@ -208,7 +209,7 @@ app.post("/login", async (req, res) => {
         bcrypt.compare(password, users[0].password, function (err, result) {
           if (result) {
             // create token
-            let token = jwt.sign({ email: users[0].email },"jwtkey", {
+            let token = jwt.sign({ email: users[0].email },process.env.JWT_KEY, {
               expiresIn: "1h",
             });
   
@@ -513,7 +514,7 @@ app.post("/updateprofile",async (req,res)=>{
 
 
 
-app.listen(3001, () => {
+app.listen(process.env.port, () => {
     console.log("Server running on port 3001");
     }
 );
